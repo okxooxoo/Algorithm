@@ -3,5 +3,4 @@ function solution(n) {
     for (let x = 3; x < n; x++) {
         if (n % x === 1) return x;
     }
-    return answer;
 }
