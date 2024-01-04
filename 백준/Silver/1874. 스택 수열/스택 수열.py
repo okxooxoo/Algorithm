@@ -11,21 +11,17 @@ for _ in range(n):
 
 def myFunc(seq):
     stack = []
-    index = 0 # 지금까지 스택에 추가된 가장 높은 정수
+    index = 1 # 지금까지 스택에 추가된 가장 높은 정수
     for s in seq:
-        if s > index:
-            for i in range(index, s):
-                stack.append(i + 1)
-                sign.append('+')
-            index = s
+        while index <= s:
+            stack.append(index)
+            sign.append('+')
+            index += 1
+        if s == stack[-1]:
             stack.pop()
             sign.append('-')
         else:
-            if s == stack[-1]:
-                stack.pop()
-                sign.append('-')
-            else:
-                return False
+            return False
     return True
 
 if myFunc(seq):
