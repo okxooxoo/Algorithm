@@ -1,13 +1,9 @@
-N = int(input())
-factorial = 1
-if N > 1:
-    for i in range(2, N + 1):
-        factorial *= i
+# 새로운 풀이 방법
+# 뒤에 등장하는 0의 개수를 세는 것은
+# N!에서 10(2*5)이 몇 번 곱해졌는지 세는 것과 같다.
+# 즉, 2의 배수와 5의 배수의 개수를 세면 된다.
+# 2의 배수는 5의 배수보다 항상 많기 때문에
+# 결국 5의 배수를 세면 문제의 답을 구할 수 있다!
 
-factorial_lst = reversed(list(str(factorial)))
-count = 0
-for i in factorial_lst:
-    if i != '0':
-        break
-    count += 1
-print(count)
+N = int(input())
+print(N//5 + N//25 + N//125)
