@@ -1,15 +1,13 @@
-def findDwarf(heights):
-    s = sum(heights)
-    for i in range(len(heights) - 1):
-        for j in range(i + 1, len(heights)):
-            if s - heights[i] - heights[j] == 100:
-                heights.pop(j)
-                heights.pop(i)
-                return sorted(heights)
+# 조합 함수를 이용한 풀이
+from itertools import combinations
+
 heights = []
 for _ in range(9):
     h = int(input())
     heights.append(h)
-results = findDwarf(heights)
+for i in combinations(heights, 7): # 7명을 뽑는 조합
+    if sum(i) == 100:
+        results = sorted(list(i))
+        break
 for result in results:
     print(result)
