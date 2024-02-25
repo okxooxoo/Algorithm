@@ -12,23 +12,16 @@ for _ in range(M):
 
 # 깊이 우선 탐색
 def dfs(V):
-    global depth
-    depth += 1
-
-    visited.append(V)
+    visited.add(V)
     for node in graph[V]:
         if node not in visited:
             dfs(node)
 
 count = 0
-visited = [] # 방문한 모든 노드
+visited = set() # 방문한 모든 노드
 for i in range(1, N+1):
     if i in visited:
         continue
-
-    depth = 0
     dfs(i)
-    if depth > 0:
-        count += 1
-
+    count += 1
 print(count)
