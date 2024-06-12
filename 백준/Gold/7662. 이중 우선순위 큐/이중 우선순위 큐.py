@@ -13,12 +13,12 @@ for _ in range(T):
         n = int(n)
         if cmd == 'I':
             number_count[n] = number_count.get(n, 0) + 1
-            heapq.heappush(max_heap, (-n, n))
+            heapq.heappush(max_heap, -n)
             heapq.heappush(min_heap, n)
         elif cmd == 'D':
             while max_heap and min_heap:
                 if n == 1:
-                    temp = heapq.heappop(max_heap)[1]
+                    temp = -heapq.heappop(max_heap)
                 elif n == -1:
                     temp = heapq.heappop(min_heap)
                 if number_count.get(temp, 0) != 0:
@@ -29,24 +29,13 @@ for _ in range(T):
     # 결과 출력
     if number_count:
         while max_heap:
-            temp = heapq.heappop(max_heap)[1]
-            if number_count.get(temp, 0) != 0:
-                number_count[temp] -= 1
-                mx = temp
-                if number_count[temp] == 0:
-                    del number_count[temp]
+            mx = -heapq.heappop(max_heap)
+            if number_count.get(mx, 0) != 0:
                 break
-        if not number_count:
-            print(mx, mx)
-        else:
-            while min_heap:
-                temp = heapq.heappop(min_heap)
-                if number_count.get(temp, 0) != 0:
-                    number_count[temp] -= 1
-                    mn = temp
-                    if number_count[temp] == 0:
-                        del number_count[temp]
-                    break
-            print(mx, mn)
+        while min_heap:
+            mn = heapq.heappop(min_heap)
+            if number_count.get(mn, 0) != 0:
+                break
+        print(mx, mn)
     else:
         print('EMPTY')
