@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 public class Main {
 	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private static StringTokenizer tokens;
-	private static StringBuilder sb = new StringBuilder();
 
 	private static int N;
 	private static int M;
