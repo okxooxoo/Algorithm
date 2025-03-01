@@ -121,17 +121,6 @@ class Solution {
             }
         }
         
-        for (int r = 0; r < R; r++) {
-            for (int c = 0; c < C; c++) {
-                if (isEmpty[r][c]) {
-                    System.out.print("0 ");
-                } else {
-                    System.out.print("1 ");
-                }
-            }
-            System.out.println();
-        }
-        
         int answer = getContainerCount();
         return answer;
     }
