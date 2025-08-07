@@ -8,13 +8,11 @@ import java.util.StringTokenizer;
 public class Main {
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static StringTokenizer tokens;
-    private static StringBuilder sb = new StringBuilder();
 
     private static int V; // 정점의 개수
     private static int E; // 간선의 개수
     private static PriorityQueue<Edge> graph; // 간선 리스트
-
-    private static int setCount; // 집합의 개수
+    
     private static int[] parents; // 집합 관리
 
     private static int answer;
@@ -27,14 +25,12 @@ public class Main {
 
             if (unionSet(startNode, endNode)) {
                 answer += edge.weight;
-                setCount--;
             }
         }
     }
 
     private static void initSet() {
         parents = new int[V];
-        setCount = V;
 
         // 음수로 트리의 높이 표현
         for (int i = 0; i < V; i++) {
