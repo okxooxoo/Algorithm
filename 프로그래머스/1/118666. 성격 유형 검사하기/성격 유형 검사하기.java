@@ -1,49 +1,35 @@
 import java.util.*;
 
 class Solution {
-    HashMap<Character, Integer> scoreMap;
+    private static char[][] types = {{'R', 'T'}, {'C', 'F'}, {'J', 'M'}, {'A', 'N'}};
+    private static int[] scores = {0, 3, 2, 1, 0, 1, 2, 3};
+    
+    private static HashMap<Character, Integer> scoreMap = new HashMap<>();
     
     public String solution(String[] survey, int[] choices) {
-        scoreMap = new HashMap<>();
+        // 점수판 초기화
+        for (char[] type: types) {
+            scoreMap.put(type[0], 0);
+            scoreMap.put(type[1], 0);
+        }
         
         for (int i = 0; i < choices.length; i++) {
-            int score = choices[i] - 4;
             // 동의할 경우
-            if (score > 0) {
+            if (choices[i] > 4) {
                 char choice = survey[i].charAt(1);
-                scoreMap.put(choice, scoreMap.getOrDefault(choice, 0) + score);
+                scoreMap.put(choice, scoreMap.get(choice) + scores[choices[i]]);
             // 비동의할 경우
-            } else if (score < 0){
+            } else if (choices[i] < 4){
                 char choice = survey[i].charAt(0);
-                scoreMap.put(choice, scoreMap.getOrDefault(choice, 0) + Math.abs(score));
+                scoreMap.put(choice, scoreMap.get(choice) + scores[choices[i]]);
             }
         }
         
-        // 성격 유형 검사 결과 구하기
+        // 검사 결과 구하기
         String answer = "";
         
-        if (scoreMap.getOrDefault('R', 0) >= scoreMap.getOrDefault('T', 0)) {
-            answer += "R";
-        } else {
-            answer += "T";
-        }
-        
-        if (scoreMap.getOrDefault('C', 0) >= scoreMap.getOrDefault('F', 0)) {
-            answer += "C";
-        } else {
-            answer += "F";
-        }
-        
-        if (scoreMap.getOrDefault('J', 0) >= scoreMap.getOrDefault('M', 0)) {
-            answer += "J";
-        } else {
-            answer += "M";
-        }
-        
-        if (scoreMap.getOrDefault('A', 0) >= scoreMap.getOrDefault('N', 0)) {
-            answer += "A";
-        } else {
-            answer += "N";
+        for (char[] type: types) {
+            answer += scoreMap.get(type[0]) >= scoreMap.get(type[1]) ? type[0] : type[1];
         }
         
         return answer;
