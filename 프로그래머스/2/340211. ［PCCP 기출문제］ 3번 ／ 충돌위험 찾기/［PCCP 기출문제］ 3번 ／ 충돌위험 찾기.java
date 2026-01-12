@@ -3,7 +3,7 @@ class Solution {
     
     private static int[][] points;
     private static int[][] routes;
-    private static int routeLen; // 경로 길이 (거치는 포인트 개수)
+    private static int routeLen; // 거치는 포인트 수
     
     private static int robotCnt; // 로봇 개수
     private static Robot[] robots;
