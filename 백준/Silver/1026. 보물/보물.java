@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static StringTokenizer tokens;
+
+    private static int N;
+    private static int[] A;
+    private static int[] B;
+
+    public static void main(String[] args) throws IOException {
+        N = Integer.parseInt(br.readLine());
+        A = new int[N];
+        B = new int[N];
+
+        tokens = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            A[i] = Integer.parseInt(tokens.nextToken());
+        }
+
+        tokens = new StringTokenizer(br.readLine());
+
+        for (int i = 0; i < N; i++) {
+            B[i] = Integer.parseInt(tokens.nextToken());
+        }
+
+        Arrays.sort(A);
+        Arrays.sort(B);
+
+        int answer = 0;
+
+        for (int i = 0; i < N; i++) {
+            answer += A[i] * B[N - i - 1];
+        }
+
+        System.out.println(answer);
+    }
+
+}
