@@ -1,0 +1,85 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static StringTokenizer tokens;
+
+	private static int[][] deltas = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+	private static int N;
+	private static int[][] ground;
+
+	// 모두 물들었는지 확인
+	private static boolean isEnd() {
+		for (int r = 0; r < N; r++) {
+			for (int c = 0; c < N; c++) {
+				if (ground[r][c] != 0) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private static int solve() {
+		int day = 0;
+		int[][] groundCnt;
+
+		while (true) {			
+			if (isEnd()) break;
+
+			day++;
+			groundCnt = new int[N][N];
+
+			// 아침: 상하좌우에서 단풍나무 모두 물든 구역 세기
+			for (int r = 0; r < N; r++) {
+				for (int c = 0; c < N; c++) {
+					int cnt = 0;
+					
+					for (int[] delta : deltas) {
+						int dr = r + delta[0];
+						int dc = c + delta[1];
+
+						if (dr < 0 || dr >= N || dc < 0 || dc >= N) {
+							continue;
+						}
+
+						if (ground[dr][dc] == 0) {
+							cnt++;
+						}
+					}
+
+					groundCnt[r][c] = cnt;
+				}
+			}
+
+			// 밤: 단풍나무 물들기
+			for (int r = 0; r < N; r++) {
+				for (int c = 0; c < N; c++) {
+					ground[r][c] = Math.max(0, ground[r][c] - groundCnt[r][c]);
+				}
+			}
+		}
+
+		return day;
+	}
+
+	private static void init() throws IOException {
+		N = Integer.parseInt(br.readLine());
+		ground = new int[N][N];
+
+		for (int r = 0; r < N; r++) {
+			tokens = new StringTokenizer(br.readLine());
+			for (int c = 0; c < N; c++) {
+				ground[r][c] = Integer.parseInt(tokens.nextToken());
+			}
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		init();
+		System.out.println(solve());
+	}
+}
