@@ -1,0 +1,64 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	private static StringTokenizer tokens;
+
+	public static void main(String[] args) throws Exception {
+		int N = Integer.parseInt(br.readLine());
+		Gyesugi gyesugi = new Gyesugi(N);
+
+		// 각 숫자판의 최댓값 입력
+		tokens = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++) {
+			int mx = Integer.parseInt(tokens.nextToken());
+			gyesugi.maxNumbers[i] = mx;
+		}
+
+		// 각 숫자판의 현재값 입력
+		tokens = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++) {
+			int cur = Integer.parseInt(tokens.nextToken());
+			gyesugi.numbers[i] = cur;
+		}
+
+		int K = Integer.parseInt(br.readLine());
+
+		for (int i = 0; i < K; i++) {
+			gyesugi.up();
+		}
+
+		// 출력
+		for (int i = 0; i < N; i++) {
+			bw.write(String.valueOf(gyesugi.numbers[i]));
+		}
+		bw.flush();
+		bw.close();
+	}
+
+	static class Gyesugi {
+		int[] numbers;
+		int[] maxNumbers;
+
+		Gyesugi(int N) {
+			this.numbers = new int[N];
+			this.maxNumbers = new int[N];
+		}
+
+		void up() {
+			int pointer = numbers.length - 1;
+			
+			while (pointer >= 0) {
+				if (numbers[pointer] >= maxNumbers[pointer]) {
+					numbers[pointer] = 0;
+					pointer--;
+				} else {
+					numbers[pointer]++;
+					break;
+				}
+			}
+		}
+	}
+}
