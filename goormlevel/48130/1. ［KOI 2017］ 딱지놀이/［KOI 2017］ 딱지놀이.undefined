@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	private static StringTokenizer tokens;
+	
+	private static int N;
+	private static int[] A;
+	private static int[] B;
+
+	private static final char A_WIN = 'A';
+	private static final char B_WIN = 'B';
+	private static final char DRAW = 'D';
+
+	private static char solve() {
+		for (int i = 4; i >= 1; i--) {
+			if (A[i] > B[i]) {
+				return A_WIN;
+			} else if (A[i] < B[i]) {
+				return B_WIN;
+			}
+		}
+
+		return DRAW;
+	}
+	
+	private static void init() throws IOException {
+		A = new int[5];
+		tokens = new StringTokenizer(br.readLine());
+		int a = Integer.parseInt(tokens.nextToken()); // A 카드의 그림 개수
+		
+		for (int i = 0; i < a; i++) {
+			int input = Integer.parseInt(tokens.nextToken());
+			A[input]++;
+		}
+		
+		B = new int[5];
+		tokens = new StringTokenizer(br.readLine());
+		int b = Integer.parseInt(tokens.nextToken()); // B 카드의 그림 개수
+		
+		for (int i = 0; i < b; i++) {
+			int input = Integer.parseInt(tokens.nextToken());
+			B[input]++;
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		N = Integer.parseInt(br.readLine());
+		for (int i = 0; i < N; i++) {
+			init();
+			bw.write(solve() + "\n");
+		}
+		bw.flush();
+		bw.close();
+	}
+}
