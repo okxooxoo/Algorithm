@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	private static StringTokenizer tokens;
+
+	private static int N; // 집의 개수
+	private static int M; // 장마 기간
+	
+	private static House[] houses;
+
+	private static void solve() throws IOException {
+		for (int i = 0; i < M; i++) {
+			tokens = new StringTokenizer(br.readLine());
+			int start = Integer.parseInt(tokens.nextToken());
+			int end = Integer.parseInt(tokens.nextToken());
+
+			for (int j = start; j <= end; j++) {
+				houses[j - 1].waterH++;
+				houses[j - 1].isRained[i] = true;
+			}
+
+			// 3의 배수가 되는 날 배수 시스템 작동
+			if ((i + 1) % 3 == 0) {
+				for (int j = 0; j < N; j++) {
+					// j번째 집이 최근 2일 이내 비가 내렸다면 물의 높이 1 감소
+					if (houses[j].isRained[i] || houses[j].isRained[i - 1] || houses[j].isRained[i - 2]) {
+						houses[j].waterH--;
+					}
+				}
+			}
+		}
+
+		// 땅 높이 증가
+		for (int i = 0; i < N; i++) {
+			houses[i].groundH += houses[i].waterH;
+			bw.write(houses[i].groundH + " ");
+		}
+	}
+
+	private static void init() throws IOException {
+		tokens = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(tokens.nextToken());
+		M = Integer.parseInt(tokens.nextToken());
+
+		houses = new House[N];
+		tokens = new StringTokenizer(br.readLine());
+
+		for (int i = 0; i < N; i++) {
+			int groundH = Integer.parseInt(tokens.nextToken());
+			houses[i] = new House(i + 1, groundH);
+		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		init();
+		solve();
+		bw.flush();
+		bw.close();
+	}
+
+	static class House {
+		int num;
+		int groundH;
+		int waterH;
+
+		boolean[] isRained; // 특정 날 비가 내렸는지 여부
+
+		House(int num, int groundH) {
+			this.num = num;
+			this.groundH = groundH;
+			this.waterH = 0;
+			this.isRained = new boolean[M];
+		}
+	}
+}
