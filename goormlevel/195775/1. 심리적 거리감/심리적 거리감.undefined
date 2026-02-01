@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+class Main {
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static StringTokenizer tokens;
+
+	private static int N; // 섬의 개수
+	private static int M; // 다리의 개수
+	private static int K; // 구름이가 사는 섬 번호
+
+	private static ArrayList<ArrayList<Integer>> graph;
+	private static int[] distances;
+
+	private static int solve() {
+		boolean[] visited = new boolean[N + 1];
+		ArrayDeque<int[]> dq = new ArrayDeque<>();
+		dq.offer(new int[] {K, 0});
+
+		while (!dq.isEmpty()) {
+			int[] cur = dq.pollFirst();
+			int curI = cur[0];
+			int curD = cur[1];
+
+			if (visited[curI]) continue;
+			visited[curI] = true;
+
+			// 심리적 거리감 기록
+			distances[curI] = curD + Math.abs(curI - K);
+
+			for (int next : graph.get(curI)) {
+				dq.addLast(new int[] {next, curD + 1});
+			}
+		}
+
+		int maxD = 0; // 최대 심리적 거리감
+		int answer = 0;
+		
+		for (int i = 1; i <= N; i++) {
+			if (distances[i] == 0) continue;
+			
+			if (maxD < distances[i]) {
+				maxD = distances[i];
+				answer = i;
+			} else if (maxD == distances[i]) {
+				if (answer < i) {
+					answer = i;
+				}
+			}
+		}
+
+		if (maxD == 0) return -1;
+		return answer;
+	}
+
+	private static void init() throws IOException {
+		tokens = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(tokens.nextToken());
+		M = Integer.parseInt(tokens.nextToken());
+		K = Integer.parseInt(tokens.nextToken());
+
+		graph = new ArrayList<>();
+		for (int i = 0; i <= N; i++) {
+			graph.add(new ArrayList<>());
+		}
+
+		for (int i = 0; i < M; i++) {
+			tokens = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(tokens.nextToken());
+			int b = Integer.parseInt(tokens.nextToken());
+			graph.get(a).add(b);
+		}
+
+		distances = new int[N + 1];
+	}
+	
+	public static void main(String[] args) throws Exception {
+		init();
+		System.out.println(solve());
+	}
+}
